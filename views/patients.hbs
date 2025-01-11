@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Details - Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/styles2.css">
+</head>
+<body>
+  <header class="header">
+    <div class="logo">
+      <h1>Hosp<span>Food</span></h1>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container py-5">
+    <h2>Patient Dashboard</h2>
+    <hr>
+
+    <div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPatientModal" style="padding: 15px;">Add patient</button>
+    </div>
+
+
+    <div class="role-specific-content">
+  <!-- Loop through patients to create cards -->
+  <div id="manager-view" class="role-view hidden"></div>
+    {{#each patients}}
+
+          <div class="card">
+        <div class="card-body">
+            <h5 class="card-title text-primary">{{this.name}}</h5>
+            <p class="card-text"><strong>Reg. ID:</strong> {{this.regid}}</p>
+            <p class="card-text"><strong>Room:</strong> {{this.roomNumber}} - {{this.floorNumber}}</p>
+            {{#if this.dietStatus}}
+                <p class="card-text"><strong>Diet Status:</strong> {{this.dietStatus}} </p>
+            {{else}}
+                <p class="card-text"><strong>Diet Status:</strong> Normal </p>
+            {{/if}}
+            {{#if this.allergies}}
+                <p class="card-text"><strong>Allergies:</strong> {{this.allergies}} </p>
+            {{else}}
+                <p class="card-text"><strong>Allergies:</strong> None </p>
+            {{/if}}
+
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-warning" onclick="view('{{this.regid}}');">Edit</button>
+            <button class="btn btn-danger" onclick="toggleDelete('{{this.regid}}', '{{this.name}}');">Delete</button>
+        </div>
+    </div>
+    {{/each}}
+
+    </div>
+    </div>
+  </main>
+
+<!-- Modal -->
+<div class="modal fade" id="addPatientModal" tabindex="-1" aria-labelledby="addPatientModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addPatientModalLabel">Add Patient</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="max-height: 80vh; overflow-y: auto;">
+        <form action="/createpatient" id="addPatientForm" method="post">
+    <input type="text" name="regid" placeholder="Registration ID" id="regid" required class="form-control mb-2">
+    <input type="text" name="name" placeholder="Patient Name" id="name" required class="form-control mb-2">
+    <input type="number" name="age" placeholder="Age" id="age" required class="form-control mb-2">
+
+    <select name="gender" id="gender" required class="form-control mb-2">
+        <option value="" disabled selected>Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <input type="text" name="bloodGroup" placeholder="Blood Group" id="bloodGroup" required class="form-control mb-2">
+    <input type="number" name="roomNumber" placeholder="Room Number" id="roomNumber" required class="form-control mb-2">
+    <input type="number" name="floorNumber" placeholder="Floor Number" id="floorNumber" required class="form-control mb-2">
+    <input type="number" name="bedNumber" placeholder="Bed Number" id="bedNumber" required class="form-control mb-2">
+
+    <textarea name="diseases" id="diseases" placeholder="Diseases" class="form-control mb-2"></textarea>
+    <textarea name="dietStatus" id="dietStatus" placeholder="Diet Status" class="form-control mb-2"></textarea>
+    <textarea name="allergies" id="allergies" placeholder="Allergies" class="form-control mb-2"></textarea>
+
+    <input type="text" name="contact" placeholder="Contact Number" id="contact" required class="form-control mb-2">
+    <input type="text" name="emergencyContact" placeholder="Emergency Contact Number" id="emergencyContact" required class="form-control mb-2">
+
+    <div id="errorMessage" class="alert alert-danger" style="display: none;"></div>
+    <button type="submit" id="specialButton" class="btn btn-primary mt-3">Add Patient</button>
+    </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <footer class="footer">
+    <p>&copy; 2025 HospFood. Designed with ❤️ for better health management.</p>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script>
+    function toggleDelete(regid, name) {
+        const confirmDeletion = confirm(
+            `Are you sure you want to delete ${name} as a patient?`
+        );
+
+        if (!confirmDeletion) {
+            return;
+        } else {
+            fetch(`/deletepatient/${regid}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            })
+            .then((response) => {
+                if (response.ok) {
+                location.reload();
+                alert(`Patient ${name} has been deleted successfully.`);
+                document.querySelector(`[data-id="${regid}"]`).remove();
+                } else {
+                alert('Failed to delete the patient.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error deleting patient:', error);
+            });
+        }
+    }
+
+    function view(regid) {
+            fetch(`/deletepatient/${regid}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            });
+    }
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const patientCardsContainer = document.getElementById('patientCardsContainer');
+        const deletePatientButton = document.getElementById('deletePatient');
+
+
+        const patientregid = card.getAttribute('data-id');
+
+
+        deletePatientButton.addEventListener('click', () => {
+    if (selectedPatients.length === 0) {
+      alert('Please select at least one patient to delete.');
+      return;
+    }
+
+    // Show confirmation popup
+    const confirmDeletion = confirm(
+      `Are you sure you want to delete ${selectedPatients.length} patient(s)?`
+    );
+    if (!confirmDeletion) return;
+
+    // Send delete request to the backend
+    fetch('/patients/delete', {
+      method: 'POST', // Using POST for compatibility with forms
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ patientIds: selectedPatients }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Remove deleted cards from the UI
+          selectedPatients.forEach((id) => {
+            const card = document.querySelector(`.patient-card[data-id="${id}"]`);
+            if (card) card.remove();
+          });
+          selectedPatients = [];
+          alert('Selected patients have been deleted.');
+        } else {
+          alert('Failed to delete patients.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting patients:', error);
+      });
+  });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const addPatientButton = document.getElementById('addPatient');
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalContainer = document.getElementById('modalContainer');
+  const closeModalButton = document.getElementById('closeModal');
+  const addPatientForm = document.getElementById('addPatientForm');
+  const patientCardsContainer = document.getElementById('patientCardsContainer');
+
+  // Show the modal
+  addPatientButton.addEventListener('click', () => {
+    modalOverlay.style.display = 'block';
+    modalContainer.style.display = 'block';
+  });
+
+  // Hide the modal
+  const closeModal = () => {
+    modalOverlay.style.display = 'none';
+    modalContainer.style.display = 'none';
+  };
+
+  closeModalButton.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', closeModal);
+
+  // Handle form submission
+  addPatientForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    // Collect form data
+    const formData = new FormData(addPatientForm);
+    const patientData = Object.fromEntries(formData.entries());
+
+    try {
+      // Send data to the server
+      const response = await fetch('/patients/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(patientData),
+      });
+
+      if (response.ok) {
+        const newPatient = await response.json();
+
+        // Add new patient card dynamically
+        const newCard = document.createElement('div');
+        newCard.classList.add('col-12', 'col-sm-6', 'col-md-4');
+        newCard.innerHTML = `
+          <div class="patient-card" data-id="${newPatient._id}">
+            <h5>${newPatient.name}</h5>
+            <p><strong>Room:</strong> ${newPatient.roomNumber} - Floor ${newPatient.floorNumber}</p>
+            <p><strong>Diet:</strong> ${newPatient.dietStatus}</p>
+            <div class="additional-info">
+              <p><strong>Age:</strong> ${newPatient.age}</p>
+              <p><strong>Gender:</strong> ${newPatient.gender}</p>
+              <p><strong>Allergies:</strong> ${newPatient.allergies}</p>
+              <p><strong>Contact:</strong> ${newPatient.contact}</p>
+              <p><strong>Emergency:</strong> ${newPatient.emergencyContact}</p>
+            </div>
+          </div>
+        `;
+        patientCardsContainer.appendChild(newCard);
+
+        // Clear and close the modal
+        addPatientForm.reset();
+        closeModal();
+        alert('Patient added successfully!');
+      } else {
+        alert('Failed to add patient. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error adding patient:', error);
+      alert('An error occurred while adding the patient.');
+    }
+  });
+});
+
+
+
+const draggableDiv = document.getElementById("draggableDiv");
+
+let isDragging = false;
+let offsetX, offsetY;
+
+draggableDiv.addEventListener("mousedown", (e) => {
+  isDragging = true;
+  offsetX = e.clientX - draggableDiv.offsetLeft;
+  offsetY = e.clientY - draggableDiv.offsetTop;
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (isDragging) {
+    draggableDiv.style.left = `${e.clientX - offsetX}px`;
+    draggableDiv.style.top = `${e.clientY - offsetY}px`;
+  }
+});
+
+document.addEventListener("mouseup", () => {
+  isDragging = false;
+});
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("addPatientForm");
+    const ageInput = document.getElementById("age");
+    const roomNumberInput = document.getElementById("roomNumber");
+    const bedNumberInput = document.getElementById("bedNumber");
+    const floorNumberInput = document.getElementById("floorNumber");
+    const errorMessage = document.getElementById("errorMessage");
+
+    form.addEventListener("submit", (event) => {
+      let isValid = true;
+      let message = "";
+
+      // Check if any value is negative
+      if (Number(ageInput.value) < 0) {
+        isValid = false;
+        message += "Age cannot be negative. ";
+      }
+      if (Number(roomNumberInput.value) < 0) {
+        isValid = false;
+        message += "Room number cannot be negative. ";
+      }
+      if (Number(bedNumberInput.value) < 0) {
+        isValid = false;
+        message += "Bed number cannot be negative. ";
+      }
+      if (Number(floorNumberInput.value) < 0) {
+        isValid = false;
+        message += "Floor number cannot be negative. ";
+      }
+
+      // If not valid, prevent submission and show error message
+      if (!isValid) {
+        event.preventDefault();
+        errorMessage.style.display = "block";
+        errorMessage.textContent = message;
+      } else {
+        errorMessage.style.display = "none";
+      }
+    });
+
+    // Optional: Add real-time validation
+    [ageInput, roomNumberInput, bedNumberInput, floorNumberInput].forEach((input) => {
+      input.addEventListener("input", () => {
+        if (Number(input.value) < 0) {
+          input.setCustomValidity("Value cannot be negative.");
+          input.reportValidity();
+        } else {
+          input.setCustomValidity("");
+        }
+      });
+    });
+  });
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

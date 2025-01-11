@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, {{username}}</h1>
+    <a href="/all/{{_id}}"><h1>Dashboard</h1></a>
+
+    <!-- Display Dashboard Based on Role -->
+    <div id="dashboard-content">
+      <!-- Hospital Food Manager View -->
+      {{#if (eq role 'Manager')}}
+      <div id="hospital-food-manager">
+        <h2>Patient Details & Diet Chart Management</h2>
+        <div id="patient-details">
+          <h3>Patient Information</h3>
+          <!-- You can dynamically populate patient information here -->
+        </div>
+        <div id="food-diet-management">
+          <h3>Manage Diet Charts</h3>
+          <!-- List of diet charts for patients -->
+        </div>
+      </div>
+      {{/if}} <!-- End Manager View -->
+
+      <!-- Inner Pantry Staff View -->
+      {{#if (eq role 'Pantry')}}
+      <div id="inner-pantry">
+        <h2>Meal Preparation & Delivery Tasks</h2>
+        <div id="meal-preparation">
+          <h3>Assigned Meal Preparation Tasks</h3>
+          <!-- Meal preparation tasks will be displayed here -->
+        </div>
+        <div id="delivery-status">
+          <h3>Meal Delivery Status</h3>
+          <!-- Status of deliveries (delivered, pending) will be displayed here -->
+        </div>
+      </div>
+      {{/if}} <!-- End Pantry View -->
+
+      <!-- Delivery Personnel View -->
+      {{#if (eq role 'Delivery')}}
+      <div id="delivery-personnel">
+        <h2>Assigned Deliveries</h2>
+        <div id="assigned-deliveries">
+          <h3>Your Assigned Deliveries</h3>
+          <!-- List of assigned deliveries to the user -->
+        </div>
+        <button onclick="markAsDelivered()">Mark as Delivered</button>
+      </div>
+      {{/if}} <!-- End Delivery Personnel View -->
+
+      <!-- Create New Post Section (Universal) -->
+      <h1>Create New Post</h1>
+      <form action="/new-post" method="post" enctype="multipart/form-data">
+        <div><input type="text" name="title" placeholder="Title" required></div>
+        <div><textarea name="content" placeholder="Content" required></textarea></div>
+        <div><input type="text" name="image" placeholder="Image URL"></div>
+        <div>
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+        </div>
+        <button type="submit" id="specialButton">Post</button>
+      </form>
+    </div> <!-- End dashboard-content -->
+  </div> <!-- End container -->
+
+  <script src="/js/dashboard.js"></script>
+  <script src="/js/script.js"></script>
+  <script>
+    async function fetchAllPosts() {
+      try {
+        const response = await fetch('/posts/all');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const posts = await response.json();
+        const postsContainer = document.getElementById('posts-container');
+        postsContainer.innerHTML = '';
+
+        posts.forEach(post => {
+          const postElement = document.createElement('div');
+          postElement.classList.add('post');
+
+          postElement.innerHTML = `
+            <div class="post-header">
+              <img class="profile-pic" src="${post.author.profilePic || '/default-profile-pic.png'}" alt="Profile Picture">
+              <span class="username">${post.author.username}</span>
+            </div>
+            <h1 class="post-title">${post.title}</h1>
+            <img class="post-image" src="${post.image || '/default-image.png'}" alt="Post Image">
+            <p class="post-description">${post.content}</p>
+          `;
+
+          postsContainer.appendChild(postElement);
+        });
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    }
+
+    // Fetch posts when the page loads
+    document.addEventListener('DOMContentLoaded', fetchAllPosts);
+
+    // Example for marking delivery as completed (for Delivery Personnel)
+    function markAsDelivered() {
+      // Implement delivery marking logic here
+      alert('Delivery marked as completed!');
+    }
+  </script>
+</body>
+</html>

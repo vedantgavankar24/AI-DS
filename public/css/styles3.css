@@ -1,0 +1,252 @@
+/* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding-top: 70px; /* Padding for header height */
+  background: linear-gradient(135deg, #f0f4ff, #c8daf5);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures footer is at the bottom */
+}
+
+main {
+  flex: 1; /* Allows content to grow and pushes footer to the bottom */
+  overflow: auto;
+  padding-top: 20px; /* Padding below header */
+  padding-bottom: 60px; /* Padding for footer height */
+}
+
+.header {
+  position: sticky; /* Sticky header remains visible on scroll */
+  top: 0;
+  z-index: 1000; /* Above all content */
+  background-color: #0078d4;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header .container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .logo h1 {
+  font-size: 1.8rem;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.header .logo span {
+  color: #fca311;
+}
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #fca311;
+}
+
+.hero {
+  text-align: center;
+  margin: 20px auto;
+  width: 97%;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0078d4, #00509e);
+  color: white;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+.subtitle {
+  font-style: italic;
+  color: #d4e9ff;
+}
+
+.role-specific-content {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.card {
+  background: white;
+  margin: 0;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 280px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card .icon {
+  font-size: 3rem;
+  color: #0078d4;
+  margin-bottom: 15px;
+}
+
+.card h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.card button {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.card button:hover {
+  transform: scale(1.05);
+}
+
+/* Footer Styling */
+.footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.footer p {
+  margin: 0;
+}
+
+/* Modal Container */
+.modal-container {
+  margin: 70px auto 20px auto; /* Top margin for header */
+  width: 90%;
+  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.modal-content {
+  position: relative;
+}
+
+.modal-header h5 {
+  font-size: 1.5rem;
+  color: #0078d4;
+}
+
+.modal-footer h5 {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.modal-body {
+  padding: 10px 0;
+}
+
+.form-control {
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #0078d4;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 120, 212, 0.5);
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+.btn-primary {
+  background-color: #0078d4;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #00509e;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    width: 100%;
+  }
+
+  .hero {
+    padding: 20px;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .nav-links {
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .modal-container {
+    margin: 20px auto;
+  }
+}

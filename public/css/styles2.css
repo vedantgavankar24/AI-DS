@@ -1,0 +1,376 @@
+/* General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f0f4ff, #c8daf5);
+  color: #333;
+  display: flex;
+  flex-direction: column; 
+  overflow-x: hidden;
+}
+
+main {
+    flex: 1; /* Allow the main content to expand and take up available space */
+    overflow: auto;
+  }
+
+
+  .header {
+    background-color: #0078d4;
+    color: white;
+    padding: 15px 20px; /* Space inside the header */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 100%; /* Full-width header */
+    box-sizing: border-box; /* Includes padding in total width */
+}
+
+.header .container {
+    width: 100%;
+    max-width: 1200px; /* Restrict the content to a manageable width */
+    margin: 0 auto; /* Center the content inside the header */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.header .logo h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    letter-spacing: 1px;
+}
+  
+.header .logo span {
+    color: #fca311;
+}
+
+
+.nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #fca311;
+}
+
+.hero {
+  text-align: center;
+  margin: 20px auto;
+  width: 97%;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0078d4, #00509e);
+  color: white;
+  border-radius: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Subtle shadow for depth */
+  box-sizing: border-box; 
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+.subtitle {
+  font-style: italic;
+  color: #d4e9ff;
+}
+
+.role-specific-content {
+  display: flex;
+  justify-content: center; /* Ensure the content is centered */
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 0 20px; /* Optional: Add some padding for better alignment */
+}
+
+#manager-view {
+  display: flex;  
+  flex-wrap: wrap;
+  gap: 20px;  /* Consistent gap between both rows and columns */
+  justify-content: center; /* Center the cards horizontally */
+  width: 100%; /* Make sure the container is full width */
+  margin: 0 auto; /* Center the content */
+}
+
+.card {
+  background: white;
+  margin: 0; /* Remove the margin for consistency */
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 280px; /* Ensure a consistent card width */
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.card .icon {
+  font-size: 3rem;
+  color: #0078d4;
+  margin-bottom: 15px;
+}
+
+.card h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.card button {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.card button:hover {
+  transform: scale(1.05);
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between; /* Ensures even spacing */
+    gap: 25px; /* Adds consistent gap between cards */
+}
+
+
+
+.delivery-completed {
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.delivery-completed:hover {
+  transform: translateY(-3px);
+  background-color: #218838;
+}
+
+
+
+/* Floating Action Buttons */
+.action-buttons {
+    background-color: #fff;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    top: 100px; /* Adjust to position below the "Patient Dashboard" line */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: none; /* Initially hidden */
+  }
+  
+  /* Modal Container */
+  .modal-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    width: 90%;
+    max-width: 500px;
+    display: none; /* Initially hidden */
+  }
+
+  #addPatientForm {
+    height: 100%;
+    overflow-y: auto; /* Enable vertical scrolling */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Add some spacing between form elements */
+}
+
+#draggableDiv {
+    position: absolute; /* Required for drag-and-drop */
+    cursor: move; /* Change cursor to indicate draggable */
+    top: 50px; /* Initial position */
+    left: 50px;
+    z-index: 1000;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+  }
+  
+  .modal-content h2 {
+    margin-bottom: 20px;
+  }
+  
+  /* Close Button */
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .close-modal:hover {
+    color: red;
+  }
+
+
+
+
+
+  .btn-primary:hover {
+    background-color: #05e31b;
+    color: black;
+    border-color: #05c902;
+  }
+
+  .btn-warning:hover {
+    background-color: orange;
+    color: black;
+    border-color: yellow
+  }
+
+  .btn-danger:hover {
+    background-color: red;
+    color: black;
+    border-color: #ff2323;
+  }
+
+  
+
+
+  .patient-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+  }
+  
+  .card-footer .btn {
+    flex: 1;
+    margin: 0 0.25rem;
+  }
+  
+  .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  
+  
+
+
+.footer {
+    background-color: black;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+.footer p {
+  margin: 0 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .card {
+    width: 100%; 
+  }
+
+  .hero {
+    padding: 20px;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .nav-links {
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .patient-card {
+    width: 100%; /* Full width for smaller screens */
+  }
+}
