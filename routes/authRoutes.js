@@ -41,6 +41,6 @@ router.post('/forgot-password', authController.resetPasswordRequest);
 router.get('/reset-password/:username', authController.showResetPasswordForm);
 
 // Route to handle password reset form submission
-router.post('/reset-password/:userid', authController.resetPassword);
+router.post('/reset-password/:username', authController.resetPassword);
 
 module.exports = router;

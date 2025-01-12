@@ -214,13 +214,13 @@ exports.login = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid username/email or password' });
+      return res.render('userdnexist');
     }
 
     // Compare hashed passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid username/email or password' });
+      return res.render('invalid');
     }
 
     // Generate JWT token
@@ -270,11 +270,11 @@ exports.resetPasswordRequest = async (req, res) => {
 exports.showResetPasswordForm = async (req, res) => {
   const { username } = req.params;
   try {
-    const userid = await User.findOne({ username: username});
-    if(!userid) {
+    const user = await User.findOne({ username: username});
+    if(!user) {
       res.render('userdnexist');
     } else {
-      res.render('reset-password', { userid });
+      res.render('reset-password', { username });
     }
   } catch (error) {
       console.error('Error rendering password reset form:', error);
@@ -283,11 +283,11 @@ exports.showResetPasswordForm = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
-  const { userid } = req.params;
+  const { username } = req.params;
   const { password, confirmPassword } = req.body;
 
   try {
-      const user = await User.findOne({ id: userid  });
+      const user = await User.findOne({ username: username  });
 
       if (!user) {
         res.render('userdnexist');
